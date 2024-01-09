@@ -23,21 +23,26 @@
   <li>D = 60%-69%</li>
   <li>F = 0%-59%</li>
 
-  <button onclick="addGrade(document.getElementById('GradeInput').value)">Add Grade</button>
+  <button
+    onclick="addGrades(document.getElementById('semester1Input').value, document.getElementById('semester2Input').value)">Add
+    Grades</button>
 
-  <input type="number" value="0" id="GradeInput">
-
+  <input type="number" value="0" id="semester1Input">
+  <input type="number" value="0" id="semester2Input">
   <p id="GPA"></p>
 
   <script>
     var Grades = [];
 
-    // addGrade is called every time the user clicks the "Add Grade" button, the value of the input box is added to the Grades array.
-    function addGrade(grade) {
+    // addGrades is called every time the user clicks the "Add Grades" button, the value of the input box is added to the Grades array.
+    function addGrades(grade1, grade2) {
+
       // Insert grade in Grades.
-      Grades.push(Number(grade));
+      Grades.push(Number(grade1));
+      Grades.push(Number(grade2));
 
       calculateGPA();
+      console.log(Grades);
     }
 
     // calculateGPA is called every time the Grades array is changed, it calculates the GPA by adding all the grades in the array and dividing by the length of the array.
