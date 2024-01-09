@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>GPA Calculator</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+  <script src="script.js"></script>
+
+  <script src="https://replit.com/public/js/replit-badge-v2.js" theme="dark" position="bottom-right"></script>
+
+  <h1>GPA Calculator</h1>
+
+  <p>Grading Scale:</p>
+  <li>A = 90%-100%</li>
+  <li>B = 80%-89%</li>
+  <li>C = 70%-79%</li>
+  <li>D = 60%-69%</li>
+  <li>F = 0%-59%</li>
+
+  <button onclick="addGrade(document.getElementById('GradeInput').value)">Add Grade</button>
+
+  <input type="number" value="0" id="GradeInput">
+
+  <p id="GPA"></p>
+
+  <script>
+    var Grades = [];
+
+    // addGrade is called every time the user clicks the "Add Grade" button, the value of the input box is added to the Grades array.
+    function addGrade(grade) {
+      // Insert grade in Grades.
+      Grades.push(Number(grade));
+
+      calculateGPA();
+    }
+
+    // calculateGPA is called every time the Grades array is changed, it calculates the GPA by adding all the grades in the array and dividing by the length of the array.
+    function calculateGPA() {
+      let GP = 0;
+
+      // This loop adds up all of the grade points.
+      for (let i = 0; i < Grades.length; i++) {
+        if (Grades[i] >= 90) {
+          GP += 4.0;
+        }
+        else if (Grades[i] >= 80) {
+          GP += 3.0;
+        }
+        else if (Grades[i] >= 70) {
+          GP += 2.0;
+        }
+        else if (Grades[i] >= 60) {
+          GP += 1.0;
+        }
+      }
+
+      // Calculate GPA
+      let GPA = Math.round((GP / Grades.length) * 100) / 100;
+
+      // Update Text
+      document.getElementById("GPA").innerText = GPA;
+    }
+  </script>
+</body>
+
+</html>
