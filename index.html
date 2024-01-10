@@ -2,6 +2,9 @@
 <html>
 
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap" rel="stylesheet">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>GPA Calculator</title>
@@ -9,10 +12,6 @@
 </head>
 
 <body>
-
-  <script src="script.js"></script>
-
-  <script src="https://replit.com/public/js/replit-badge-v2.js" theme="dark" position="bottom-right"></script>
 
   <h1>GPA Calculator</h1>
 
@@ -23,206 +22,67 @@
   <li>D = 60%-69%</li>
   <li>F = 0%-59%</li>
 
-  <button
-    onclick="addGrades(document.getElementById('semester1Input').value, document.getElementById('semester2Input').value, document.getElementById('honors').checked)">Add
-    Grades</button>
+  <div class="tab">
+    <button id="yearlyGPAButton" class="tablinks" onclick="openTab(event, 'yearlyGPA')">Yearly GPA</button>
+    <button id="semesterGPAButton" class="tablinks" onclick="openTab(event, 'semesterGPA')">Semester GPA</button>
+  </div>
 
-  <input type="checkbox" id="honors" name="honors" value="">
-  <label for="honors"> Honors/AP?</label><br>
+  <div id="yearlyGPA" class="tabcontent">
+    <input type="checkbox" id="honors" name="honors" value="" class="input-honors">
+    <label for="honors"> Honors/AP</label><br>
 
-  <input type="number" value="" id="semester1Input">
-  <input type="number" value="" id="semester2Input">
-  <p id="unweightedGPA"></p>
-  <p id="weightedGPA"></p>
+    <input type="number" value="" id="semester1Input" class="input-number-box"
+      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value = Math.abs(Number(this.value));"
+      maxlength="5" placeholder="Semester 1">
+    <input type="number" value="" id="semester2Input" class="input-number-box"
+      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value = Math.abs(Number(this.value));"
+      maxlength="5" placeholder="Semester 2">
 
-  <br>
+    <br>
+    <br>
 
-  <button
-    onclick="addGrades2(document.getElementById('quarter1Input').value, document.getElementById('quarter2Input').value, document.getElementById('finalExamInput').value, document.getElementById('honors2').checked)">Add
-    Grades</button>
+    <button class="add-grade-button"
+      onclick="addGrades(document.getElementById('semester1Input').value, document.getElementById('semester2Input').value, document.getElementById('honors').checked)">Add
+      Grades</button>
+    <p id="unweightedGPA">Unweighted:</p>
+    <p id="weightedGPA">Weighted:</p>
 
-  <input type="checkbox" id="honors2" name="honors2" value="">
-  <label for="honors2"> Honors/AP?</label><br>
+    <button onclick="deleteGrades()" class="reset-button"> Reset </button>
+  </div>
 
-  <input type="number" value="" id="quarter1Input">
-  <input type="number" value="" id="quarter2Input">
-  <input type="number" value="" id="finalExamInput">
-
-  <p id="unweightedGPA2"></p>
-  <p id="weightedGPA2"></p>
-
-  <!-- Semester GPA -->
-  <script>
-    class Semester {
-      constructor(quarter1, quarter2, finalExam, isHonors) {
-        this.quarter1 = quarter1;
-        this.quarter2 = quarter2;
-        this.finalExam = finalExam;
-        this.isHonors = isHonors;
-      }
-    }
-
-    var Classes2 = [];
-
-    // addGrades2 is called every time the user clicks the "Add Grades" (2) button, the value of the input box is added to the Classes2 array.
-    function addGrades2(grade1, grade2, finalGrade, isHonors) {
-
-      var newSemester = new Semester((grade1 == "") ? -1 : Math.abs(Number(grade1)), (grade2 == "") ? -1 : Math.abs(Number(grade2)), (finalGrade == "") ? -1 : Math.abs(Number(finalGrade)), isHonors);
-
-      // Insert grade in Grades.
-      Classes2.push(newSemester);
-
-      // Calculate GPA.
-      var unweightedGPA = calculateUnweightedGPA2();
-      var weightedGPA = calculateWeightedGPA2(unweightedGPA);
-
-      // Update GPA Text
-      document.getElementById("unweightedGPA2").innerText = unweightedGPA;
-      document.getElementById("weightedGPA2").innerText = weightedGPA;
-      console.log(Classes2);
-    }
-
-    // calculatedUnweightedGPA2 sets the unweighted GPA value by adding up the values of all of the grade points and dividing them by the amount of classes (semester weights are 40% for quarters and 20% for final exams).
-    function calculateUnweightedGPA2() {
-      let GP = 0;
-
-      for (let i = 0; i < Classes2.length; i++) {
-        var semesterAvg = ((Classes2[i].quarter1 * 0.4) + (Classes2[i].quarter2 * 0.4) + (Classes2[i].finalExam * 0.2));
-
-        if (semesterAvg >= 90) {
-          GP += 4.0;
-        }
-        else if (semesterAvg >= 80) {
-          GP += 3.0;
-        }
-        else if (semesterAvg >= 70) {
-          GP += 2.0;
-        }
-        else if (semesterAvg >= 60) {
-          GP += 1.0;
-        }
-      }
-
-      // Calculate GPA
-      let GPA = Math.round((GP / Classes2.length) * 100) / 100;
-
-      return GPA;
-    }
-
-    // This calculates the weighted GPA value by adding 0.04 for every honors class to the given unweighted GPA.
-    function calculateWeightedGPA2(unweightedGPA) {
-      let totalHonors = 0;
-
-      for (let i = 0; i < Classes2.length; i++) {
-        if (Classes2[i].isHonors) {
-          totalHonors++;
-        }
-      }
-
-      // Calculate GPA
-      let GPA = unweightedGPA + (0.04 * totalHonors);
-
-      return GPA;
-    }
-  </script>
-
-  <!-- Yearly GPA -->
-  <script>
-
-    class YearlyClass {
-      constructor(semester1, semester2, isHonors) {
-        this.semester1 = semester1;
-        this.semester2 = semester2;
-        this.isHonors = isHonors;
-      }
-    }
-
-    var Classes = [];
-
-    // addGrades is called every time the user clicks the "Add Grades" button, the value of the input box is added to the Classes array.
-    function addGrades(grade1, grade2, isHonors) {
-
-      var newYearlyClass = new YearlyClass((grade1 == "") ? -1 : Math.abs(Number(grade1)), (grade2 == "") ? -1 : Math.abs(Number(grade2)), isHonors);
-
-      // Insert grade in Grades.
-      Classes.push(newYearlyClass);
-
-      // Calculate GPA.
-      var unweightedGPA = calculateUnweightedGPA();
-      var weightedGPA = calculateWeightedGPA(unweightedGPA);
-
-      // Update GPA Text
-      document.getElementById("unweightedGPA").innerText = unweightedGPA;
-      document.getElementById("weightedGPA").innerText = weightedGPA;
-      console.log(Classes);
-    }
-
-    // calculatedUnweightedGPA sets the unweighted GPA value by adding up the values of all of the grade points and dividing them by the amount of classes.
-    function calculateUnweightedGPA() {
-      let GP = 0;
-      let totalSemesters = 0;
-
-      for (let i = 0; i < Classes.length; i++) {
-        if (Classes[i].semester1 != -1) {
-          totalSemesters++;
-
-          if (Classes[i].semester1 >= 90) {
-            GP += 4.0;
-          }
-          else if (Classes[i].semester1 >= 80) {
-            GP += 3.0;
-          }
-          else if (Classes[i].semester1 >= 70) {
-            GP += 2.0;
-          }
-          else if (Classes[i].semester1 >= 60) {
-            GP += 1.0;
-          }
-        }
-
-        if (Classes[i].semester2 != -1) {
-          totalSemesters++;
-
-          if (Classes[i].semester2 >= 90) {
-            GP += 4.0;
-          }
-          else if (Classes[i].semester2 >= 80) {
-            GP += 3.0;
-          }
-          else if (Classes[i].semester2 >= 70) {
-            GP += 2.0;
-          }
-          else if (Classes[i].semester2 >= 60) {
-            GP += 1.0;
-          }
-        }
-      }
-
-      // Calculate GPA
-      let GPA = Math.round((GP / totalSemesters) * 100) / 100;
-
-      return GPA;
-    }
-
-    // This calculates the weighted GPA value by adding 0.04 for every honors class to the given unweighted GPA.
-    function calculateWeightedGPA(unweightedGPA) {
-      let totalHonors = 0;
-
-      for (let i = 0; i < Classes.length; i++) {
-        if (Classes[i].isHonors && (Classes[i].semester1 != -1 || Claases[i].semester2 != -1)) {
-          totalHonors++;
-        }
-      }
-
-      // Calculate GPA
-      let GPA = unweightedGPA + (0.04 * totalHonors);
-
-      return GPA;
-    }
-  </script>
+  <div id="semesterGPA" class="tabcontent">
 
 
+    <input type="checkbox" id="honors2" name="honors2" value="">
+    <label for="honors2"> Honors/AP</label><br>
 
+    <input type="number" value="" id="quarter1Input" class="input-number-box"
+      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value = Math.abs(Number(this.value));"
+      maxlength="5" placeholder="Quarter 1">
+    <input type="number" value="" id="quarter2Input" class="input-number-box"
+      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value = Math.abs(Number(this.value));"
+      maxlength="5" placeholder="Quarter 2">
+    <input type="number" value="" id="finalExamInput" class="input-number-box"
+      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value = Math.abs(Number(this.value));"
+      maxlength="5" placeholder="Final Exam">
+
+    <br>
+    <br>
+
+    <button class="add-grade-button"
+      onclick="addGrades2(document.getElementById('quarter1Input').value, document.getElementById('quarter2Input').value, document.getElementById('finalExamInput').value, document.getElementById('honors2').checked)">Add
+      Grades</button>
+    </br>
+    <p id="unweightedGPA2">Unweighted:</p>
+    <p id="weightedGPA2">Weighted:</p>
+
+    <button onclick="deleteGrades2()" class="reset-button"> Reset </button>
+  </div>
+
+  <!-- Import Scripts -->
+  <script src="semesterGPA.js"></script>
+  <script src="yearlyGPA.js"></script>
+  <script src="tabs.js"></script>
 </body>
 
 </html>
