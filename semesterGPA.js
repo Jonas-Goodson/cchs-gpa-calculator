@@ -3,11 +3,12 @@ function deleteGrades2() {
   // Remove all classes
   Classes2 = [];
 
-  // Update GPA Text
+  // Update Text
+  document.getElementById("classList2").innerText = "";
   document.getElementById("unweightedGPA2").innerText = "Unweighted:";
   document.getElementById("weightedGPA2").innerText = "Weighted:";
 }
-
+// The new Semester class is composed of the Quarter 1, Quarter 2, and Final Exam input values. The class also accounts for the Honors/AP boolean.
 class Semester {
   constructor(quarter1, quarter2, finalExam, isHonors) {
     this.quarter1 = quarter1;
@@ -36,6 +37,14 @@ function addGrades2(grade1, grade2, finalGrade, isHonors) {
   document.getElementById("quarter2Input").value = "";
   document.getElementById("finalExamInput").value = "";
   document.getElementById("honors2").checked = false;
+
+  // Update Class List Text
+  var classesString = "";
+  for (var i = 0; i < Classes2.length; i++) {
+    classesString += ("\n" + (Classes2[i].quarter1 == -1 ? "NA" : Classes2[i].quarter1.toString() + "%") + ", " + (Classes2[i].quarter2 == -1 ? "NA" : Classes2[i].quarter2.toString()  + "%") + ", " + (Classes2[i].finalExam == -1 ? "NA" : Classes2[i].finalExam.toString()  + "%") + ", " + (Classes2[i].isHonors ? "Honors" : "Regular"));
+  }
+  document.getElementById("classList2").innerText = classesString;
+  
   // Update GPA Text
   document.getElementById("unweightedGPA2").innerText = "Unweighted: " + unweightedGPA;
   document.getElementById("weightedGPA2").innerText = "Weighted: " + weightedGPA;

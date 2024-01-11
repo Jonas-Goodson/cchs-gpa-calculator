@@ -6,6 +6,10 @@ html {
   width: 100%;
 }
 
+.center-text {
+  text-align: center;
+}
+
 /* Styles the Add Grade button*/
 .add-grade-button {
   color: black;
@@ -61,6 +65,7 @@ input[type=number] {
   padding-left: 8px;
   padding-right: 8px;
   border-radius: 50px;
+  margin: 5px;
 }
 
 .reset-button:hover {
@@ -68,11 +73,21 @@ input[type=number] {
 }
 
 /* Style the tabs */
+.center-tab {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
 .tab {
+  min-width: 500px;
+  max-width: 500px;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   overflow: hidden;
   background-color: #c9aaa2;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Style the buttons inside the tab */
@@ -100,9 +115,12 @@ input[type=number] {
 
 /* Style the tab content */
 .tabcontent {
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 500px;
+  max-width: 500px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   background-color: #a77669;
   display: none;
-  padding: 6px 12px;
 }

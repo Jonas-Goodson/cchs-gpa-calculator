@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<!-- Loads styling and the font. -->
 
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,67 +13,69 @@
 </head>
 
 <body>
+  <!-- Loads a list of the Grading Scale -->
+  <div class="center-text">
+    <h1>GPA Calculator</h1>
 
-  <h1>GPA Calculator</h1>
-
-  <p>Grading Scale:</p>
-  <li>A = 90%-100%</li>
-  <li>B = 80%-89%</li>
-  <li>C = 70%-79%</li>
-  <li>D = 60%-69%</li>
-  <li>F = 0%-59%</li>
-
+    <p>Grading Scale:</p>
+    <li>A = 90%-100%</li>
+    <li>B = 80%-89%</li>
+    <li>C = 70%-79%</li>
+    <li>D = 60%-69%</li>
+    <li>F = 0%-59%</li>
+  </div>
+  <!-- Loads the button and its styling -->
   <div class="tab">
     <button id="yearlyGPAButton" class="tablinks" onclick="openTab(event, 'yearlyGPA')">Yearly GPA</button>
     <button id="semesterGPAButton" class="tablinks" onclick="openTab(event, 'semesterGPA')">Semester GPA</button>
   </div>
 
-  <div id="yearlyGPA" class="tabcontent">
+  <div id="yearlyGPA" class="tabcontent center-tab">
     <input type="checkbox" id="honors" name="honors" value="" class="input-honors">
     <label for="honors"> Honors/AP</label><br>
-
+    <!-- Establishes the maximum character length for the Yearly GPA input boxes. -->
     <input type="number" value="" id="semester1Input" class="input-number-box"
-      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value = Math.abs(Number(this.value));"
+      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
       maxlength="5" placeholder="Semester 1">
     <input type="number" value="" id="semester2Input" class="input-number-box"
-      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value = Math.abs(Number(this.value));"
+      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
       maxlength="5" placeholder="Semester 2">
 
     <br>
     <br>
-
+    <!-- Every time the Add Grades button for the Yearly GPA, is pressed the values for each of the input boxes is calculated. -->
     <button class="add-grade-button"
       onclick="addGrades(document.getElementById('semester1Input').value, document.getElementById('semester2Input').value, document.getElementById('honors').checked)">Add
       Grades</button>
+    <p id="classList"></p>
     <p id="unweightedGPA">Unweighted:</p>
     <p id="weightedGPA">Weighted:</p>
 
     <button onclick="deleteGrades()" class="reset-button"> Reset </button>
   </div>
 
-  <div id="semesterGPA" class="tabcontent">
-
+  <div id="semesterGPA" class="tabcontent center-tab">
 
     <input type="checkbox" id="honors2" name="honors2" value="">
     <label for="honors2"> Honors/AP</label><br>
-
+    <!-- Establishes the maximum character length for the Semester GPA input boxes. -->
     <input type="number" value="" id="quarter1Input" class="input-number-box"
-      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value = Math.abs(Number(this.value));"
+      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
       maxlength="5" placeholder="Quarter 1">
     <input type="number" value="" id="quarter2Input" class="input-number-box"
-      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value = Math.abs(Number(this.value));"
+      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
       maxlength="5" placeholder="Quarter 2">
     <input type="number" value="" id="finalExamInput" class="input-number-box"
-      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value = Math.abs(Number(this.value));"
+      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
       maxlength="5" placeholder="Final Exam">
 
     <br>
     <br>
-
+    <!-- Every time the Add Grades button for the Semester GPA is pressed, the values for each of the input boxes is calculated. -->
     <button class="add-grade-button"
       onclick="addGrades2(document.getElementById('quarter1Input').value, document.getElementById('quarter2Input').value, document.getElementById('finalExamInput').value, document.getElementById('honors2').checked)">Add
       Grades</button>
-    </br>
+    <p id="classList2"></p>
     <p id="unweightedGPA2">Unweighted:</p>
     <p id="weightedGPA2">Weighted:</p>
 
