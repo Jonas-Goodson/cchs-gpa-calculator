@@ -124,3 +124,12 @@ input[type=number] {
   background-color: #a77669;
   display: none;
 }
+
+/* Style the snackbar */
+.show-snackbar {
+  display: block;
+}
+
+.hide-snackbar {
+  display: none;
+}

@@ -50,6 +50,9 @@ function addSemesterGrades(quarter1Grade, quarter2Grade, finalGrade, isHonors) {
     document.getElementById("weightedSemesterGPA").innerText = "Weighted: " + weightedGPA;
     console.log(semesterClasses);
   }
+  else {
+    showSnackbar("All inputs need values.");
+  }
 }
 
 // calculatedUnweightedSemesterGPA sets the unweighted GPA value by adding up the values of all of the grade points and dividing them by the amount of classes (semester weights are 40% for quarters and 20% for final exams).
