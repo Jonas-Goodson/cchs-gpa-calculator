@@ -31,8 +31,8 @@
   </div>
 
   <div id="yearlyGPA" class="tabcontent center-tab">
-    <input type="checkbox" id="honors" name="honors" value="" class="input-honors">
-    <label for="honors"> Honors/AP</label><br>
+    <input type="checkbox" id="yearlyHonors" name="yearlyHonors" value="" class="input-yearlyHonors">
+    <label for="yearlyHonors"> Honors/AP</label><br>
     <!-- Establishes the maximum character length for the Yearly GPA input boxes. -->
     <input type="number" value="" id="semester1Input" class="input-number-box"
       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
@@ -43,21 +43,21 @@
 
     <br>
     <br>
-    <!-- Every time the Add Grades button for the Yearly GPA, is pressed the values for each of the input boxes is calculated. -->
+    <!-- Every time the Add Grades button for the Yearly GPA,     is pressed the values for each of the input boxes is calculated. -->
     <button class="add-grade-button"
-      onclick="addGrades(document.getElementById('semester1Input').value, document.getElementById('semester2Input').value, document.getElementById('honors').checked)">Add
+      onclick="addYearlyGrades(document.getElementById('semester1Input').value, document.getElementById('semester2Input').value, document.getElementById('yearlyHonors').checked)">Add
       Grades</button>
-    <p id="classList"></p>
-    <p id="unweightedGPA">Unweighted:</p>
-    <p id="weightedGPA">Weighted:</p>
+    <p id="yearlyClassList"></p>
+    <p id="unweightedYearlyGPA">Unweighted:</p>
+    <p id="weightedYearlyGPA">Weighted:</p>
 
-    <button onclick="deleteGrades()" class="reset-button"> Reset </button>
+    <button onclick="deleteYearlyGrades()" class="reset-button"> Reset </button>
   </div>
 
   <div id="semesterGPA" class="tabcontent center-tab">
 
-    <input type="checkbox" id="honors2" name="honors2" value="">
-    <label for="honors2"> Honors/AP</label><br>
+    <input type="checkbox" id="semesterHonors" name="semesterHonors" value="">
+    <label for="semesterHonors"> Honors/AP</label><br>
     <!-- Establishes the maximum character length for the Semester GPA input boxes. -->
     <input type="number" value="" id="quarter1Input" class="input-number-box"
       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
@@ -73,13 +73,13 @@
     <br>
     <!-- Every time the Add Grades button for the Semester GPA is pressed, the values for each of the input boxes is calculated. -->
     <button class="add-grade-button"
-      onclick="addGrades2(document.getElementById('quarter1Input').value, document.getElementById('quarter2Input').value, document.getElementById('finalExamInput').value, document.getElementById('honors2').checked)">Add
+      onclick="addSemesterGrades(document.getElementById('quarter1Input').value, document.getElementById('quarter2Input').value, document.getElementById('finalExamInput').value, document.getElementById('semesterHonors').checked)">Add
       Grades</button>
-    <p id="classList2"></p>
-    <p id="unweightedGPA2">Unweighted:</p>
-    <p id="weightedGPA2">Weighted:</p>
+    <p id="semesterClassList"></p>
+    <p id="unweightedSemesterGPA">Unweighted:</p>
+    <p id="weightedSemesterGPA">Weighted:</p>
 
-    <button onclick="deleteGrades2()" class="reset-button"> Reset </button>
+    <button onclick="deleteSemesterGrades()" class="reset-button"> Reset </button>
   </div>
 
   <!-- Import Scripts -->

@@ -1,13 +1,13 @@
 
-// deleteGrades is called everytime the user clicks the reset button above the Yearly GPA. 
-function deleteGrades() {
+// deleteYearlyGrades is called everytime the user clicks the reset button above the Yearly GPA. 
+function deleteYearlyGrades() {
   // Remove all classes
-  Classes = [];
+  yearlyClasses = [];
 
   // Update Text
-  document.getElementById("classList").innerText = "";
-  document.getElementById("unweightedGPA").innerText = "Unweighted:";
-  document.getElementById("weightedGPA").innerText = "Weighted:";
+  document.getElementById("yearlyClassList").innerText = "";
+  document.getElementById("unweightedYearlyGPA").innerText = "Unweighted:";
+  document.getElementById("weightedYearlyGPA").innerText = "Weighted:";
 }
 
 // The new Yealy class is composed of the Semester 1, and Semester 2 input values. The class also accounts for the Honors/AP boolean.
@@ -19,76 +19,76 @@ class YearlyClass {
   }
 }
 
-var Classes = [];
+var yearlyClasses = [];
 
-// addGrades is called every time the user clicks the "Add Grades" button, the value of the input box is added to the Classes array.
-function addGrades(grade1, grade2, isHonors) {
+// addYearlyGrades is called every time the user clicks the "Add Grades" button, the value of the input box is added to the yearlyClasses array.
+function addYearlyGrades(semester1Grade, semester2Grade, isHonors) {
 
-  if (grade1 != "" || grade2 != "") {
-    var newYearlyClass = new YearlyClass((grade1 == "") ? -1 : Math.abs(Number(grade1)), (grade2 == "") ? -1 : Math.abs(Number(grade2)), isHonors);
+  if (semester1Grade != "" || semester2Grade != "") {
+    var newYearlyClass = new YearlyClass((semester1Grade == "") ? -1 : Math.abs(Number(semester1Grade)), (semester2Grade == "") ? -1 : Math.abs(Number(semester2Grade)), isHonors);
 
-    // Insert grade in Classes.
-    Classes.push(newYearlyClass);
+    // Insert grade in yearlyClasses.
+    yearlyClasses.push(newYearlyClass);
 
     // Calculate GPA.
-    var unweightedGPA = calculateUnweightedGPA();
-    var weightedGPA = calculateWeightedGPA(unweightedGPA);
+    var unweightedGPA = calculateUnweightedYearlyGPA();
+    var weightedGPA = calculateYearlyWeightedGPA(unweightedGPA);
 
     // Resets inputs.
     document.getElementById("semester1Input").value = "";
     document.getElementById("semester2Input").value = "";
-    document.getElementById("honors").checked = false;
+    document.getElementById("yearlyHonors").checked = false;
 
     // Update Class List Text
     var classesString = "";
-    for (var i = 0; i < Classes.length; i++) {
-      classesString += ("\n" + (Classes[i].semester1 == -1 ? "NA" : Classes[i].semester1.toString() + "%") + ", " + (Classes[i].semester2 == -1 ? "NA" : Classes[i].semester2.toString() + "%") + ", " + (Classes[i].isHonors ? "Honors" : "Regular"));
+    for (var i = 0; i < yearlyClasses.length; i++) {
+      classesString += ("\n" + (yearlyClasses[i].semester1 == -1 ? "N/A" : yearlyClasses[i].semester1.toString() + "%") + ", " + (yearlyClasses[i].semester2 == -1 ? "N/A" : yearlyClasses[i].semester2.toString() + "%") + ", " + (yearlyClasses[i].isHonors ? "Honors" : "Regular"));
     }
-    document.getElementById("classList").innerText = classesString;
+    document.getElementById("yearlyClassList").innerText = classesString;
 
     // Update GPA Text
-    document.getElementById("unweightedGPA").innerText = "Unweighted: " + unweightedGPA;
-    document.getElementById("weightedGPA").innerText = "Weighted: " + weightedGPA;
-    console.log(Classes);
+    document.getElementById("unweightedYearlyGPA").innerText = "Unweighted: " + unweightedGPA;
+    document.getElementById("weightedYearlyGPA").innerText = "Weighted: " + weightedGPA;
+    console.log(yearlyClasses);
   }
 }
 
-// calculatedUnweightedGPA sets the unweighted GPA value by adding up the values of all of the grade points and dividing them by the amount of classes.
-function calculateUnweightedGPA() {
+// calculatedUnweightedYearlyGPA sets the unweighted GPA value by adding up the values of all of the grade points and dividing them by the amount of classes.
+function calculateUnweightedYearlyGPA() {
   let GP = 0;
   let totalSemesters = 0;
 
-  for (let i = 0; i < Classes.length; i++) {
-    if (Classes[i].semester1 != -1) {
+  for (let i = 0; i < yearlyClasses.length; i++) {
+    if (yearlyClasses[i].semester1 != -1) {
       totalSemesters++;
 
-      if (Classes[i].semester1 >= 90) {
+      if (yearlyClasses[i].semester1 >= 90) {
         GP += 4.0;
       }
-      else if (Classes[i].semester1 >= 80) {
+      else if (yearlyClasses[i].semester1 >= 80) {
         GP += 3.0;
       }
-      else if (Classes[i].semester1 >= 70) {
+      else if (yearlyClasses[i].semester1 >= 70) {
         GP += 2.0;
       }
-      else if (Classes[i].semester1 >= 60) {
+      else if (yearlyClasses[i].semester1 >= 60) {
         GP += 1.0;
       }
     }
 
-    if (Classes[i].semester2 != -1) {
+    if (yearlyClasses[i].semester2 != -1) {
       totalSemesters++;
 
-      if (Classes[i].semester2 >= 90) {
+      if (yearlyClasses[i].semester2 >= 90) {
         GP += 4.0;
       }
-      else if (Classes[i].semester2 >= 80) {
+      else if (yearlyClasses[i].semester2 >= 80) {
         GP += 3.0;
       }
-      else if (Classes[i].semester2 >= 70) {
+      else if (yearlyClasses[i].semester2 >= 70) {
         GP += 2.0;
       }
-      else if (Classes[i].semester2 >= 60) {
+      else if (yearlyClasses[i].semester2 >= 60) {
         GP += 1.0;
       }
     }
@@ -101,11 +101,11 @@ function calculateUnweightedGPA() {
 }
 
 // This calculates the weighted GPA value by adding 0.04 for every honors class to the given unweighted GPA.
-function calculateWeightedGPA(unweightedGPA) {
+function calculateYearlyWeightedGPA(unweightedGPA) {
   let totalHonors = 0;
 
-  for (let i = 0; i < Classes.length; i++) {
-    if (Classes[i].isHonors && (Classes[i].semester1 != -1 || Classes[i].semester2 != -1)) {
+  for (let i = 0; i < yearlyClasses.length; i++) {
+    if (yearlyClasses[i].isHonors && (yearlyClasses[i].semester1 != -1 || yearlyClasses[i].semester2 != -1)) {
       totalHonors++;
     }
   }
