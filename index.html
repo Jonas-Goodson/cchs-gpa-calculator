@@ -15,7 +15,7 @@
 <body>
   <!-- Loads a list of the Grading Scale -->
   <div class="center-text">
-    <h1>GPA Calculator</h1>
+    <h1>CCHS GPA Calculator</h1>
 
     <p>Grading Scale:</p>
     <li>A = 90%-100%</li>
@@ -28,11 +28,13 @@
   <div class="tab">
     <button id="yearlyGPAButton" class="tablinks" onclick="openTab(event, 'yearlyGPA')">Yearly GPA</button>
     <button id="semesterGPAButton" class="tablinks" onclick="openTab(event, 'semesterGPA')">Semester GPA</button>
+    <button id="helpButton" class="tablinks" onclick="openTab(event, 'helpMenu')">Need Help?</button>
   </div>
 
   <div id="yearlyGPA" class="tabcontent center-tab">
     <input type="checkbox" id="yearlyHonors" name="yearlyHonors" value="" class="input-yearlyHonors">
     <label for="yearlyHonors"> Honors/AP</label><br>
+
     <!-- Establishes the maximum character length for the Yearly GPA input boxes. -->
     <input type="number" value="" id="semester1Input" class="input-number-box"
       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
@@ -52,6 +54,8 @@
     <p id="weightedYearlyGPA">Weighted:</p>
 
     <button onclick="deleteYearlyGrades()" class="reset-button"> Reset </button>
+    <button onclick="createYearlyCSV()" class="reset-button"> Download CSV </button>
+
   </div>
 
   <div id="semesterGPA" class="tabcontent center-tab">
@@ -80,10 +84,48 @@
     <p id="weightedSemesterGPA">Weighted:</p>
 
     <button onclick="deleteSemesterGrades()" class="reset-button"> Reset </button>
+    <button onclick="createSemesterCSV()" class="reset-button"> Downloard CSV </button>
+  </div>
+
+  <div id="helpMenu" class="tabcontent center-tab">
+    <br>
+    <p>Semester weight: 50%</p>
+    <p>Quarter weight for 1 & 2: 40%</p>
+    <p>Final exam weight: 20%</p>
+    <p>Honors/AP weight: +0.04</p>
+    <p>Formula for semester grade: (Quarter 1 value x 0.4) + (Quarter 2 value x 0.4) + (Final Exam value x 0.2)</p>
+    <p>Formula for Yearly Grade: (Semester 1 value + Semester 2 value) / 2 </p>
+    <p>If the class that is being graded is honors/AP then add 0.04 to the GPA</p>
   </div>
 
   <div class="hide-snackbar" id="snackbar"></div>
-  
+
+  <!-- The code in the script is applied to all of the input boxes and checks for the "-", "+", and "e" characters. Then it prevents those characters being typed in the given input box by the user. -->
+  <script>
+
+    var inputBoxes = [
+      document.getElementById("finalExamInput"),
+      document.getElementById("quarter1Input"),
+      document.getElementById("quarter2Input"),
+      document.getElementById("semester1Input"),
+      document.getElementById("semester2Input")
+    ];
+
+    var invalidChars = [
+      "-",
+      "+",
+      "e",
+    ];
+
+    // This iterates through inputBoxes, and for each input box it adds an event listener for the key down event. If the event listner is triggered then the invalid characters will not be inputted.
+    inputBoxes.forEach((inputBox) => {
+      inputBox.addEventListener("keydown", function (e) {
+        if (invalidChars.includes(e.key)) {
+          e.preventDefault();
+        }
+      });
+    });
+  </script>
   <!-- Import Scripts -->
   <script src="semesterGPA.js"></script>
   <script src="yearlyGPA.js"></script>

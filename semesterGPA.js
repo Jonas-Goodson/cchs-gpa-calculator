@@ -22,7 +22,10 @@ var semesterClasses = [];
 
 // addSemesterGrades is called every time the user clicks the "Add Grades" (2) button, the value of the input box is added to the semesterClasses array.
 function addSemesterGrades(quarter1Grade, quarter2Grade, finalGrade, isHonors) {
-  if (quarter1Grade != "" || quarter2Grade != "") {
+  if (quarter1Grade == "" || quarter2Grade == "") {
+    showSnackbar("All inputs need values.");
+  }
+  else {
     var newSemester = new Semester((quarter1Grade == "") ? -1 : Math.abs(Number(quarter1Grade)), (quarter2Grade == "") ? -1 : Math.abs(Number(quarter2Grade)), (finalGrade == "") ? -1 : Math.abs(Number(finalGrade)), isHonors);
 
     // Insert grade in Grades.
@@ -43,15 +46,12 @@ function addSemesterGrades(quarter1Grade, quarter2Grade, finalGrade, isHonors) {
     for (var i = 0; i < semesterClasses.length; i++) {
       classesString += ("\n" + (semesterClasses[i].quarter1 == -1 ? "N/A" : semesterClasses[i].quarter1.toString() + "%") + ", " + (semesterClasses[i].quarter2 == -1 ? "N/A" : semesterClasses[i].quarter2.toString() + "%") + ", " + (semesterClasses[i].finalExam == -1 ? "N/A" : semesterClasses[i].finalExam.toString() + "%") + ", " + (semesterClasses[i].isHonors ? "Honors" : "Regular"));
     }
-    document.getElementById("yearlyClassList").innerText = classesString;
+    document.getElementById("semesterClassList").innerText = classesString;
 
     // Update GPA Text
     document.getElementById("unweightedSemesterGPA").innerText = "Unweighted: " + unweightedGPA;
     document.getElementById("weightedSemesterGPA").innerText = "Weighted: " + weightedGPA;
     console.log(semesterClasses);
-  }
-  else {
-    showSnackbar("All inputs need values.");
   }
 }
 
@@ -98,3 +98,25 @@ function calculateSemesterWeightedGPA(unweightedGPA) {
   return GPA;
 }
 
+function createSemesterCSV() {
+  if (semesterClasses.length == 0) {
+    showSnackbar("No classes to export.");
+    return;
+  }
+
+  var csvContent = "data:text/csv;charset=utf-8,";
+
+  csvContent += "quarter 1," + "quarter 2," + "final exam," + "is Honors\n";
+
+  for (var i = 0; i < semesterClasses.length; i++) {
+    var quarter1 = semesterClasses[i].quarter1 == -1 ? "" : semesterClasses[i].quarter1;
+    var quarter2 = semesterClasses[i].quarter2 == -1 ? "" : semesterClasses[i].quarter2;
+    var finalExam = semesterClasses[i].finalExam;
+    var isHonors = semesterClasses[i].isHonors;
+
+    csvContent += quarter1 + "," + quarter2 + "," + finalExam + "," + isHonors + "," + "\n";
+  }
+
+  var encodeUri = encodeURI(csvContent);
+  window.open(encodeUri);
+}

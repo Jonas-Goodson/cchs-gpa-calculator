@@ -20,6 +20,8 @@ function initalOpenTab(calculator) {
 }
 
 function openTab(evt, calculator) {
+  hideSnackbar();
+
   var i, tabcontent, tablinks;
 
   tabcontent = document.getElementsByClassName("tabcontent");

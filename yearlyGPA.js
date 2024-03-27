@@ -24,7 +24,10 @@ var yearlyClasses = [];
 // addYearlyGrades is called every time the user clicks the "Add Grades" button, the value of the input box is added to the yearlyClasses array.
 function addYearlyGrades(semester1Grade, semester2Grade, isHonors) {
 
-  if (semester1Grade != "" || semester2Grade != "") {
+  if (semester1Grade == "" && semester2Grade == "") {
+    showSnackbar("At least 1 input needs a value.");
+  }
+  else {
     var newYearlyClass = new YearlyClass((semester1Grade == "") ? -1 : Math.abs(Number(semester1Grade)), (semester2Grade == "") ? -1 : Math.abs(Number(semester2Grade)), isHonors);
 
     // Insert grade in yearlyClasses.
@@ -114,4 +117,26 @@ function calculateYearlyWeightedGPA(unweightedGPA) {
   let GPA = unweightedGPA + (0.04 * totalHonors);
 
   return GPA;
+}
+
+function createYearlyCSV() {
+  if (yearlyClasses.length == 0) {
+    showSnackbar("No classes to export.");
+    return;
+  }
+
+  var csvContent = "data:text/csv;charset=utf-8,";
+
+  csvContent += "semester 1," + "semester 2," + "is Honors\n";
+
+  for (var i = 0; i < yearlyClasses.length; i++) {
+    var semester1 = yearlyClasses[i].semester1 == -1 ? "" : yearlyClasses[i].semester1;
+    var semester2 = yearlyClasses[i].semester2 == -1 ? "" : yearlyClasses[i].semester2;
+    var isHonors = yearlyClasses[i].isHonors;
+
+    csvContent += semester1 + "," + semester2 + "," + isHonors + "\n";
+  }
+
+  var encodeUri = encodeURI(csvContent);
+  window.open(encodeUri);
 }
